@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".IntroActivity"
+    android:weightSum="20"
+    android:orientation="vertical"
+    android:background="@color/white">
+    <androidx.viewpager.widget.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/view_pager"
+        tools:layout_editor_absoluteX="8dp"
+        android:layout_weight="20"
+        tools:layout_editor_absoluteY="8dp" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:id="@+id/btn_get_started"
+        android:visibility="gone"
+        android:layout_marginBottom="50dp"
+        android:textColor="@color/white"
+        android:background="@drawable/btn_gradient_style"
+        android:layout_gravity="center_horizontal"
+        android:text="Get Started"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="5"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+    <com.google.android.material.tabs.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tab_layout"
+        android:layout_weight="4"
+        app:tabTextColor="@color/grad_start"
+        android:layout_gravity="left"
+        android:layout_marginHorizontal="20dp"
+        app:tabBackground="@drawable/indicator_selector"
+        tools:layout_editor_absoluteX="25dp"
+        tools:layout_editor_absoluteY="627dp"></com.google.android.material.tabs.TabLayout>
+        <Button
+            android:id="@+id/button_next"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:background="#ffffff"
+            android:textColor="@color/grad_end"
+            android:layout_weight="1"
+            android:textSize="10sp"
+            android:text="Next"
+            android:textAllCaps="false"
+            android:layout_gravity="end"
+            android:drawableTint="@color/grad_end"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:drawableRight="@drawable/ic_arrow_forward_black_24dp"
+            tools:layout_editor_absoluteX="289dp"
+            tools:layout_editor_absoluteY="652dp" />
+    </LinearLayout>
+</LinearLayout>
