@@ -1,7 +1,13 @@
 package com.example.seatspy;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.ContentFrameLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,53 +21,74 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
-    String url = "https://api.railwayapi.com/v2/between/source/";
-    String original=url;
-    EditText src,dest,date;
-    TextView txtresponse;
-    String source,destination,doj;
+   BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button btn = findViewById(R.id.btn);
-        txtresponse = findViewById(R.id.txtresponse);
-        src=findViewById(R.id.src);
-        dest = findViewById(R.id.dest);
-        date = findViewById(R.id.date);
-        btn.setOnClickListener(new View.OnClickListener() {
+     setupBottonNavigation();
+        if(savedInstanceState==null){
+            loadSearchFragment();
+        }
+    }
+
+    private void setupBottonNavigation() {
+        bottomNavigationView=(BottomNavigationView)findViewById(R.id.bnavigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Getting your PNR status", Toast.LENGTH_SHORT).show();
-                source=src.getText().toString();
-                destination=dest.getText().toString();
-                doj = date.getText().toString();
-                url = original+source+"/dest/"+destination+"/date/"+doj+"/apikey/v0936vp7s6/";
-                display();
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch(menuItem.getItemId()){
+                    case R.id.search:
+                        loadSearchFragment();
+                        break;
+                    case R.id.route:
+                        loadRouteFragment();
+                        break;
+                    case R.id.pnr:
+                        loadPnrFragment();
+                        break;
+                    case R.id.profile:
+                        loadProfileFragment();
+                        break;
+                }
+                return true;
             }
         });
     }
 
-    private void display() {
-        Toast.makeText(this, "url: "+url, Toast.LENGTH_SHORT).show();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Toast.makeText(MainActivity.this, "response: "+response.toString(), Toast.LENGTH_SHORT).show();
-                    txtresponse.setText(response);
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MainActivity.this, "error: "+error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-
+    private void loadProfileFragment() {
+      androidx.fragment.app.Fragment fragment = ProfileFragment.newInstance();
+        androidx.fragment.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frame_fragment,fragment);
+        ft.commit();
     }
+
+    private void loadPnrFragment() {
+      androidx.fragment.app.Fragment fragment = PnrFragment.newInstance();
+      androidx.fragment.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frame_fragment,fragment);
+        ft.commit();
+    }
+
+    private void loadRouteFragment() {
+        androidx.fragment.app.Fragment fragment = RouteFragment.newInstance();
+        androidx.fragment.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frame_fragment,fragment);
+        ft.commit();
+    }
+
+    private void loadSearchFragment() {
+
+        Fragment fragment = SearchFragment.newInstance();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frame_fragment,fragment);
+        ft.commit();
+    }
+
 }
